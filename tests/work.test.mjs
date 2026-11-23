@@ -2,11 +2,8 @@ import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { build } from './helpers.mjs';
 
-let site, html;
-before(async () => {
-  site = await build();
-  html = site.read('index.html');
-});
+let html;
+before(async () => { html = (await build()).read('index.html'); });
 
 const at = (text) => {
   const i = html.indexOf(text);
@@ -15,19 +12,24 @@ const at = (text) => {
 };
 
 test('sections appear in settings order inside #work', () => {
-  const work = at('id="work"');
-  assert.ok(work < at('Medical Devices'));
-  assert.ok(at('Medical Devices') < at('Automation'));
+  assert.ok(at('id="work"') < at('Alpha Section'));
+  assert.ok(at('Alpha Section') < at('Beta Section'));
+  assert.ok(at('Beta Section') < at('Empty Section'));
 });
 
-test('rows appear in order with summaries', () => {
-  assert.ok(at('[Artificial Valve]') < at('[Catheter Valve]'));
-  assert.ok(at('[Catheter Valve]') < at('[EGG Device]'));
-  assert.ok(at('[Smart Farm Automation]') < at('[Factory Automation]'));
-  assert.equal(html.split('[one-line summary]').length - 1, 5);
+test('rows appear in order within their section, with summaries and tags', () => {
+  assert.ok(at('Alpha Section') < at('Summary of first'));
+  assert.ok(at('Summary of first') < at('Second Alpha'));
+  assert.ok(at('Second Alpha') < at('Summary of second'));
+  assert.ok(at('Summary of second') < at('TagOne · TagTwo'));
+  assert.ok(at('TagOne · TagTwo') < at('Beta Section'));
 });
 
-test('rows are not links while details is off', () => {
-  assert.doesNotMatch(html, /<a[^>]*>\s*\[Artificial Valve\]/);
-  assert.equal(site.exists('projects/artificial-valve/index.html'), false);
+test('a section with no projects shows a placeholder', () => {
+  assert.match(html.slice(at('Empty Section'), at('id="cv"')), /\[Nothing here yet\]/);
+});
+
+test('titles are shown as text, not markup', () => {
+  at('First &lt;b&gt; &amp; &quot;q&quot;');
+  assert.doesNotMatch(html, /First <b>/);
 });

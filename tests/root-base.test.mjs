@@ -5,11 +5,7 @@ import { build } from './helpers.mjs';
 // The site as it is built for its own domain, served from the root.
 let home, detail;
 before(async () => {
-  const site = await build({
-    SITE_URL: 'https://example.com',
-    SITE_BASE: '/',
-    PROJECTS_DIR: 'tests/fixtures/details',
-  });
+  const site = await build({ SITE_URL: 'https://example.com', SITE_BASE: '/' });
   home = site.read('index.html');
   detail = site.read('projects/with-body/index.html');
 });

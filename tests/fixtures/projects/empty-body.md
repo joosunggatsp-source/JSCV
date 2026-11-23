@@ -1,7 +1,7 @@
 ---
 title: Empty Body
 summary: Fixture summary
-section: automation
+section: beta
 order: 2
 details: true
 ---

@@ -141,34 +141,54 @@ Create the folder `src/assets/projects/` and put the image there. In the project
 
 The text in square brackets describes the image for people who cannot see it. The site resizes and compresses the image when it builds.
 
+## Save your changes to GitHub
+
+Nothing changes on the public site until the edit is on GitHub's `main` branch. Two ways to get it there:
+
+**In the browser (simplest).** Open the file on github.com, click the pencil icon, edit, then click "Commit changes". To add a new file, open the folder and choose Add file → Create new file (or Upload files for images and PDFs).
+
+**From your computer.** After editing and checking with `npm run dev`:
+
+```bash
+git add -A
+```
+
+```bash
+git commit -m "Update content"
+```
+
+```bash
+git push
+```
+
 ## Publish with GitHub Pages
 
-The site publishes itself each time the `main` branch changes.
+The site publishes itself each time the `main` branch changes. It takes a minute or two; progress shows under the repository's Actions tab.
 
 One-time setup, in the repository on GitHub:
 
-1. Go to Settings → Pages.
-2. Under "Build and deployment", set Source to "GitHub Actions".
+1. Make sure a branch named `main` exists and is the default branch (Settings → General → Default branch).
+2. Go to Settings → Pages.
+3. Under "Build and deployment", set Source to "GitHub Actions".
 
-After the next change to `main`, the site is at https://joosunggatsp-source.github.io/JSCV/. Progress shows under the Actions tab.
+After the next change to `main`, the site is at https://joosunggatsp-source.github.io/JSCV/.
+
+If a publish fails, open the failed run under the Actions tab. The usual cause is a project file whose `section` does not match any section `id`; the message names the file.
 
 ## Connect your own domain
 
-1. In `astro.config.mjs`, change the two defaults:
+Do these in order. The last step switches the site over, so the old address keeps working until then.
+
+1. At your domain registrar, add the DNS records GitHub lists at https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site.
+2. On GitHub, go to Settings → Pages, enter the domain under "Custom domain" and save. Tick "Enforce HTTPS" once it becomes available.
+3. In `astro.config.mjs`, change the two defaults and save the change to GitHub:
 
    ```js
    const SITE_URL = process.env.SITE_URL ?? 'https://your-domain.com';
    const SITE_BASE = process.env.SITE_BASE ?? '/';
    ```
 
-2. Create a file `public/CNAME` containing only the domain:
-
-   ```
-   your-domain.com
-   ```
-
-3. At your domain registrar, add the DNS records GitHub lists at https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site.
-4. On GitHub, go to Settings → Pages, enter the domain under "Custom domain" and save. Tick "Enforce HTTPS" once it becomes available.
+Between steps 2 and 3 the pages may look unstyled for a few minutes. Step 3 fixes that.
 
 ## Check your changes
 
@@ -176,4 +196,4 @@ After the next change to `main`, the site is at https://joosunggatsp-source.gith
 npm test
 ```
 
-This builds the site and checks that the pages and links come out as expected.
+This builds the site and checks that it still comes out right. It does not depend on what your text says, so it should pass after any content edit. If it fails, the message says which file to look at.

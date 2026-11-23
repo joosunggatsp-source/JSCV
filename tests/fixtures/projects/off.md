@@ -1,7 +1,7 @@
 ---
 title: "Off"
 summary: Fixture summary
-section: automation
+section: beta
 order: 3
 details: false
 ---

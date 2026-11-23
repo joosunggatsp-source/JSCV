@@ -4,7 +4,7 @@ import { build } from './helpers.mjs';
 
 let site, home, withBody, emptyBody;
 before(async () => {
-  site = await build({ PROJECTS_DIR: 'tests/fixtures/details' });
+  site = await build();
   home = site.read('index.html');
   withBody = site.exists('projects/with-body/index.html') ? site.read('projects/with-body/index.html') : '';
   emptyBody = site.exists('projects/empty-body/index.html') ? site.read('projects/empty-body/index.html') : '';
@@ -20,13 +20,6 @@ test('home links the title to the page', () => {
   assert.match(home, /<a[^>]*href="\/JSCV\/projects\/with-body\/"[^>]*>\s*With Body/);
   assert.doesNotMatch(home, /<a[^>]*>\s*Off\s*</);
   assert.match(home, />\s*Off\s*</);
-});
-
-test('a section with no projects shows a placeholder', () => {
-  const start = home.indexOf('Medical Devices');
-  const end = home.indexOf('Automation');
-  assert.ok(start !== -1 && end > start);
-  assert.match(home.slice(start, end), /\[Nothing here yet\]/);
 });
 
 test('a written body is shown as written', () => {
