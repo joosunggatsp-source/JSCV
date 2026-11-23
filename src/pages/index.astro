@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+import { href } from '../lib/url';
+---
+<Base title={site.name}>
+  <p class="tagline">{site.tagline}</p>
+
+  <section id="about">
+    <h2>About</h2>
+    {site.about.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <div id="work"></div>
+
+  <section id="cv">
+    <h2>CV</h2>
+    <ul class="rows">
+      {site.cv.groups.map((group) => (
+        <li>
+          <h3>{group.title}</h3>
+          <ul class="detail">
+            {group.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+    {site.cv.pdf && <p><a href={href(site.cv.pdf)}>CV (PDF)</a></p>}
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <ul class="inline-list">
+      {site.contact.map((entry) => (
+        <li>{entry.url ? <a href={entry.url}>{entry.label}</a> : entry.label}</li>
+      ))}
+    </ul>
+  </section>
+</Base>

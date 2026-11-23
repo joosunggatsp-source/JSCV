@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+import { site } from '../site.config';
+import { href } from '../lib/url';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+
+const nav = [
+  { label: 'About', target: '#about' },
+  { label: 'Work', target: '#work' },
+  { label: 'CV', target: '#cv' },
+  { label: 'Contact', target: '#contact' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="site-name" href={href('')}>{site.name}</a>
+      <nav aria-label="Sections">
+        {nav.map((item) => <a href={href(item.target)}>{item.label}</a>)}
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

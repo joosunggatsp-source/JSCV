@@ -1,0 +1,145 @@
+:root {
+  --bg: #fcfcfa;
+  --text: #1c1c1a;
+  --muted: #6e6e69;
+  --rule: #e4e4df;
+  --link: #24527a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131312;
+    --text: #e7e7e3;
+    --muted: #9b9b95;
+    --rule: #2c2c2a;
+    --link: #93bbe0;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 2.5rem 1.5rem 6rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Header */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.site-name {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+/* Sections */
+
+.tagline {
+  margin-bottom: 5rem;
+  font-size: 1.375rem;
+  line-height: 1.4;
+}
+
+section {
+  margin-bottom: 3.5rem;
+}
+
+section > h2 {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Rows: a label on the left, detail on the right. Stacks on narrow screens. */
+
+.rows > li {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 1.5rem;
+  padding: 0.4rem 0;
+}
+
+.rows .detail {
+  color: var(--muted);
+}
+
+@media (min-width: 34rem) {
+  .rows > li {
+    grid-template-columns: 14rem 1fr;
+  }
+}
+
+.tags {
+  font-size: 0.875rem;
+}
+
+.inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
