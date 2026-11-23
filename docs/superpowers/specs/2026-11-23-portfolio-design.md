@@ -98,7 +98,7 @@ No email address goes on the site until Joosung says which address to publish.
 **Adding content freely.** Using only text files and one settings file, Joosung can:
 
 - Add, remove or reorder projects: add or remove a file in the projects folder.
-- Add, rename or remove a section: edit the list of sections in the settings file; the home page and header follow. "Medical Devices" and "Automation" are only the starting values.
+- Add, rename or remove a section: edit the list of sections in the settings file; the home page follows. The header keeps a single "Work" link that jumps to the first section. "Medical Devices" and "Automation" are only the starting values.
 - Switch a project's detail page on and write its body in the same file.
 - Edit the one-line description, introduction, CV entries and contact links, each in one place.
 - Add images later by placing them in a set folder and naming them in a project file.
