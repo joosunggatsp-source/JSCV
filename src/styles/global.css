@@ -120,6 +120,7 @@ section > h2 {
 .rows > li {
   display: grid;
   grid-template-columns: 1fr;
+  align-items: baseline;
   gap: 0 1.5rem;
   padding: 0.4rem 0;
 }
