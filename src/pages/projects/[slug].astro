@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config';
+import { href } from '../../lib/url';
+
+// Only projects with `details: true` get a page.
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', (project) => project.data.details);
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const hasBody = Boolean(project.body?.trim());
+const { Content } = await render(project);
+
+// Shown until the project file has a body of its own.
+const outline = [
+  { heading: 'Problem', placeholder: '[Describe the problem]' },
+  { heading: 'What I did', placeholder: '[Describe what you did]' },
+  { heading: 'Result', placeholder: '[Describe the result]' },
+];
+---
+<Base title={`${project.data.title} · ${site.name}`}>
+  <article class="project">
+    <header>
+      <h1>{project.data.title}</h1>
+      <p class="muted">{project.data.summary}</p>
+      {project.data.tags.length > 0 && (
+        <p class="muted tags">{project.data.tags.join(' · ')}</p>
+      )}
+    </header>
+
+    {hasBody ? (
+      <Content />
+    ) : (
+      outline.map((part) => (
+        <Fragment>
+          <h2>{part.heading}</h2>
+          <p class="muted">{part.placeholder}</p>
+        </Fragment>
+      ))
+    )}
+  </article>
+
+  <p class="back"><a href={href('')}>← Home</a></p>
+</Base>

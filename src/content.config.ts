@@ -2,9 +2,12 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+// Tests point PROJECTS_DIR at fixture files; the site itself always uses the default.
+const projectsDir = process.env.PROJECTS_DIR ?? './src/content/projects';
+
 // One Markdown file per project. The file name (without .md) is the project's id.
 const projects = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/projects' }),
+  loader: glob({ pattern: '*.md', base: projectsDir }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),

@@ -25,7 +25,13 @@ const groups = groupBySection(site.sections, await getCollection('projects'));
           <ul class="rows">
             {items.map((project) => (
               <li>
-                <h3>{project.data.title}</h3>
+                <h3>
+                  {project.data.details ? (
+                    <a href={href(`projects/${project.id}/`)}>{project.data.title}</a>
+                  ) : (
+                    project.data.title
+                  )}
+                </h3>
                 <div class="detail">
                   {project.data.summary}
                   {project.data.tags.length > 0 && (
