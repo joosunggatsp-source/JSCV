@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../site.config';
 import { href } from '../lib/url';
+import { getCollection } from 'astro:content';
+import { groupBySection } from '../lib/work';
+
+const groups = groupBySection(site.sections, await getCollection('projects'));
 ---
 <Base title={site.name}>
   <p class="tagline">{site.tagline}</p>
@@ -11,7 +15,30 @@ import { href } from '../lib/url';
     {site.about.map((paragraph) => <p>{paragraph}</p>)}
   </section>
 
-  <div id="work"></div>
+  <div id="work">
+    {groups.map(({ section, items }) => (
+      <section id={section.id}>
+        <h2>{section.title}</h2>
+        {items.length === 0 ? (
+          <p class="muted">[Nothing here yet]</p>
+        ) : (
+          <ul class="rows">
+            {items.map((project) => (
+              <li>
+                <h3>{project.data.title}</h3>
+                <div class="detail">
+                  {project.data.summary}
+                  {project.data.tags.length > 0 && (
+                    <div class="tags">{project.data.tags.join(' · ')}</div>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))}
+  </div>
 
   <section id="cv">
     <h2>CV</h2>
