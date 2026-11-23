@@ -1,127 +1,126 @@
-# 포트폴리오 사이트 설계
+# Portfolio Site Design
 
-작성일: 2026-11-23
+Date: 2026-11-23
 
-## 의도
+## Intent
 
-주성님의 작업물을 보여주는 영어 포트폴리오 사이트를 만든다. 대학원 지원 때 교수님에게 보여주는 것이 주된 용도이고, VC에게 보여줄 수도 있다. 블로그는 이 문서의 범위가 아니며, 포트폴리오가 끝난 뒤 별개의 사이트로 따로 설계한다.
+An English portfolio site for Joosung's work. Its main use is to show professors during graduate school applications; it may also be shown to VCs. The first version publishes only the structure of the site. Joosung fills in the details afterwards. A blog is out of scope: it will be a separate site, designed after this one.
 
-## 주성님이 정한 것
+## Decided by Joosung
 
-- 포트폴리오와 블로그는 별개의 사이트 두 개로, 따로따로 진행한다.
-- 참고 사이트는 bosunpark.xyz 이다 (스크린샷 4장으로 확인).
-- 올릴 작업물: 인공판막, 카테터 판막, EGG 기계, 스마트팜 자동화, 소규모 모터기계 공장 자동화.
-- 보는 사람: 대학원 입학 심사(교수님) 또는 VC.
-- 언어: 영어.
-- 도메인은 주성님이 직접 구매한다.
-- 저장소는 `joosunggatsp-source/JSCV`를 쓴다.
+- The portfolio and the blog are two separate sites, done one at a time.
+- The site is as minimal as possible.
+- Only the site structure is published now. Joosung adds the details later.
+- Work to list: artificial valve, catheter valve, EGG device, smart farm automation, small motor-machinery factory automation.
+- Audience: graduate admissions (professors), or VCs.
+- Language: English.
+- Joosung buys the domain.
+- Repository: `joosunggatsp-source/JSCV`.
 
-## 목표
+## Goals
 
-- 한 페이지를 아래로 내려가며 읽는 구조로, 참고 사이트와 같은 결의 차분하고 학술적인 인상을 준다.
-- 교수님이 2분 안에 "무슨 분야 사람이고 무엇을 직접 만들었는지" 파악할 수 있다.
-- 새 프로젝트를 추가할 때 글 파일 하나만 쓰면 카드와 상세 페이지가 생긴다.
-- 휴대폰에서도 깨지지 않는다.
+- A reader can see the shape of the site at a glance: who this is, which areas of work exist, where the CV and contact details will be.
+- Joosung can add and change content freely without touching code.
+- Reads well on a phone.
 
-## 하지 않는 것
+## Non-goals
 
-- 블로그 (다음 프로젝트).
-- 한국어 버전.
-- 문의 양식, 방문자 통계, 관리자 화면, 로그인.
+- Blog (next project).
+- Korean version.
+- Contact form, analytics, admin screen, login.
+- Photos, animation, decorative elements.
 
-## 이렇게 되면 실패
+## Anti-goals
 
-- 지어낸 연구 결과, 수치, 소속, 경력이 사이트에 실리는 것. 확인되지 않은 내용은 모두 눈에 띄는 자리 표시 문구로 둔다.
-- 참고 사이트의 복제품처럼 보이는 것. 구조와 분위기는 따르되 문구, 사진, 색 조합은 새로 만든다.
-- 투자 유치용 광고 페이지처럼 화려해서 입학 심사에서 가볍게 보이는 것.
+- Invented results, numbers, affiliations or experience appearing on the site. Anything Joosung has not supplied stays a visible placeholder.
+- Looking like a flashy pitch page. It should read as calm and serious to an admissions reader.
+- Visual clutter. If an element is not needed to understand the structure, it is left out.
 
-## 접근 방법
+## Approaches
 
-검토한 세 가지:
+Three were considered:
 
-1. **순수 HTML/CSS 파일.** 가장 단순하다. 그러나 상세 페이지가 늘어나면 공통 부분을 고칠 때 모든 파일을 손봐야 하고, 블로그를 만들 때 이어 쓸 것이 없다.
-2. **Astro (정적 사이트 생성 도구).** 프로젝트 하나가 글 파일 하나이고, 결과물은 순수 HTML이다. 블로그도 같은 방식과 디자인을 이어 쓸 수 있다.
-3. **Next.js.** 로그인이나 데이터베이스가 있는 서비스용 도구라 읽기 전용 포트폴리오에는 과하다.
+1. **Plain HTML/CSS files.** Simplest to start. But the header and styles are repeated in every file, each new project means hand-editing HTML, and nothing carries over to the blog.
+2. **Astro (static site generator).** One project is one text file; the output is plain HTML with no scripts. The blog can reuse the same method and styles.
+3. **Next.js.** Built for apps with logins and databases; too much for a read-only portfolio.
 
-**선택: 2번 Astro.** 주성님이 결과물 중심으로 말씀하셔서 만드는 방법은 Claude가 정했고, 주성님은 이의 없이 도메인 이야기로 넘어갔다. 이 선택은 Claude의 판단이다.
+**Chosen: 2, Astro.** Joosung spoke in terms of outcomes, so the tool was Claude's call. A minimal look does not need a minimal tool: Astro is what lets content be added by editing text files only.
 
-## 사이트 구성
+## Site structure
 
-### 홈 (한 페이지)
+### Home (one page)
 
 ```
-[상단 메뉴]  Joosung Lee ···· About · Medical Devices · Automation · CV · Contact · (테마 전환)
+Joosung Lee                          About  Work  CV  Contact
 
-[첫 화면]    작은 라벨 (분야 · 소속)
-             큰 세리프체 한 문장
-             두세 줄 부연 설명
+[One-line description]
 
-[About]      왼쪽: 자기소개 두 문단   |   오른쪽: 기울임체 인용문 한 줄
+About
+[Short introduction]
 
-[Medical Devices]   큰 제목 + 카드 3장: 인공판막, 카테터 판막, EGG 기계
-[Automation]        큰 제목 + 카드 2장: 스마트팜 자동화, 공장 자동화
+Medical Devices
+  [Artificial Valve]             [one-line summary]
+  [Catheter Valve]               [one-line summary]
+  [EGG Device]                   [one-line summary]
 
-[CV]         학력 · 경력 · 기술 목록 + PDF 내려받기 링크
-[Contact]    이메일 링크 + 외부 프로필 링크
+Automation
+  [Smart Farm Automation]        [one-line summary]
+  [Factory Automation]           [one-line summary]
+
+CV
+  [Education]  [Experience]  [Skills]      CV (PDF)
+
+Contact
+  [email]  [links]
 ```
 
-- 상단 메뉴는 화면 위에 고정되고, 누르면 해당 구역으로 부드럽게 이동한다.
-- 카드 한 장: 제목, 한두 문장 요약, 태그, `VIEW →` 링크. 상세 페이지가 아직 없는 프로젝트는 링크 대신 `PAGE SOON`으로 표시한다.
-- 휴대폰에서는 카드가 한 줄로 쌓이고 메뉴는 접힌다.
+- One narrow column of text with generous spacing.
+- Work is a plain list of rows, not cards: title, one-line summary, optional tags.
+- A row becomes a link only when that project has a detail page switched on. All detail pages are off in the first version.
+- Header links jump to the sections on the same page.
 
-### 프로젝트 상세 페이지
+### Project detail page
 
-프로젝트마다 한 페이지. 순서는 **Problem → What I did → Result** 이다. 교수님은 "What I did"를, VC는 "Problem"과 "Result"를 본다는 점에서 두 대상을 한 구성으로 만족시킨다. 사진과 도표를 넣을 수 있고, 맨 아래에 홈으로 돌아가는 링크를 둔다.
+One page per project, when switched on. Headings in order: **Problem**, **What I did**, **Result**. Professors read "What I did"; VCs read "Problem" and "Result". A link back to home sits at the bottom.
 
-### 디자인
+### Look
 
-- 기본은 어두운 테마, 버튼으로 밝은 테마 전환. 선택은 방문자의 브라우저에 기억된다.
-- 제목은 고전적인 세리프체, 본문은 깔끔한 산세리프체, 라벨과 태그는 넓게 띄운 대문자 고정폭체.
-- 어두운 바탕에 포인트 색 하나. 참고 사이트의 남색 + 주황 조합을 그대로 쓰지 않고, 같은 인상을 주는 다른 조합을 고른다 (Claude의 판단).
-- 움직임은 스크롤 때 살짝 나타나는 정도로 절제한다. 움직임을 줄이도록 설정한 방문자에게는 끈다.
-- 첫 화면은 사진이 없어도 완성돼 보여야 한다. 본인 사진 파일을 정해진 자리에 넣으면 전체 화면 배경이 되고, 글자가 읽히도록 어두운 막이 덧씌워진다.
+- One typeface family. Text in near-black on near-white, with a single quiet accent used only for links.
+- Light and dark follow the visitor's system setting automatically. There is no toggle button.
+- No images, no animation, no JavaScript on the page.
 
-## 내용
+## Content
 
-프로젝트는 글 파일(Markdown) 하나씩이며 각 파일은 다음을 가진다: 제목, 요약, 갈래(의료기기 또는 자동화), 태그, 표시 순서, 상세 페이지 공개 여부, 본문.
+Everything on the site that Joosung has not supplied is a placeholder wrapped in square brackets so that it is obvious on the page. That covers the one-line description, the introduction, the five project titles and summaries, CV entries, and contact links. The five project titles are literal renderings of the Korean names (for example `[Artificial Valve]`, `[EGG Device]`); Claude does not guess technical specifics.
 
-주성님이 아직 주지 않은 내용은 모두 자리 표시 문구로 채운다. 대상: 첫 화면 문장과 라벨, 자기소개, 인용문, 프로젝트 5개의 요약과 본문과 태그, CV 항목, 이메일과 프로필 링크, 본인 사진. 자리 표시 문구는 대괄호로 감싸 사이트에서도 눈에 띄게 하고, 저장소의 안내 문서에 "어느 파일의 어디를 바꾸면 되는지" 목록으로 정리한다.
+No email address goes on the site until Joosung says which address to publish.
 
-**뼈대 먼저, 내용은 나중에 (주성님 결정).** 프로젝트의 정확한 의미와 영어 제목은 지금 정하지 않는다. 다섯 프로젝트의 제목은 한국어 이름을 그대로 옮긴 임시 제목을 대괄호로 감싸 넣고(예: `[Artificial Valve]`, `[EGG Device]`), 주성님이 나중에 고친다. Claude는 기술적 세부를 추측해서 적지 않는다.
+**Adding content freely.** Using only text files and one settings file, Joosung can:
 
-**내용을 자유롭게 추가할 수 있어야 한다 (주성님 결정).** 코드를 건드리지 않고 글 파일과 설정 파일만으로 다음을 할 수 있다.
+- Add, remove or reorder projects: add or remove a file in the projects folder.
+- Add, rename or remove a section: edit the list of sections in the settings file; the home page and header follow. "Medical Devices" and "Automation" are only the starting values.
+- Switch a project's detail page on and write its body in the same file.
+- Edit the one-line description, introduction, CV entries and contact links, each in one place.
+- Add images later by placing them in a set folder and naming them in a project file.
 
-- 프로젝트 추가, 삭제, 순서 변경: 프로젝트 폴더에 글 파일을 넣거나 빼면 된다.
-- 구역(갈래) 추가, 이름 변경, 삭제: 설정 파일 한 곳의 구역 목록을 고치면 홈의 구역과 상단 메뉴가 함께 바뀐다. 의료기기와 자동화는 처음 값일 뿐이다.
-- 첫 화면 문구, 자기소개, 인용문, CV 항목, 연락처 링크: 각각 한 곳의 글 또는 설정 파일에서 고친다.
-- 사진과 도표: 정해진 폴더에 넣고 글 파일에서 파일 이름으로 부른다.
+A guide in `docs/` shows each of these with an example. The top-level README holds one line about the site and a link to the guide.
 
-안내 문서에 위 작업 각각을 "어느 파일을 어떻게 고치는지" 예시와 함께 적는다.
+## Publishing
 
-이메일 주소는 주성님이 공개할 주소를 알려주기 전까지 사이트에 넣지 않는다.
+- Deployed with GitHub Pages; pushing to the default branch builds and publishes automatically.
+- Before the domain is bought: the site must work at `joosunggatsp-source.github.io/JSCV`.
+- After the domain is bought: change the address in one place in the settings and add the domain file. The guide lists the steps.
+- Joosung does by hand: turn on Pages in the repository settings, buy the domain and set DNS. Both are in the guide step by step.
 
-## 공개
+## Verification
 
-- GitHub Pages로 배포한다. 기본 브랜치에 올라가면 자동으로 빌드되어 공개된다.
-- 도메인 구매 전: `joosunggatsp-source.github.io/JSCV` 주소에서 동작해야 한다.
-- 도메인 구매 후: 설정 파일 한 곳의 주소만 바꾸고 도메인 파일을 추가하면 연결된다. 절차를 안내 문서에 적는다.
-- 주성님이 직접 해야 하는 일: 저장소 설정에서 Pages를 켜기, 도메인 구매와 DNS 설정. 둘 다 안내 문서에 단계별로 적는다.
+- The build finishes without errors.
+- Opened in a real browser and captured at desktop and phone widths, in light and dark.
+- Header links work. With one project's detail page temporarily switched on, the row link and the link back to home work.
+- Links work both under the sub-path (`/JSCV`) and at a root address.
 
-## Claude가 정한 세부 사항
+## Left to the builder
 
-- **안내 문서의 위치.** 사용 안내는 `docs/` 폴더에 두고, 최상위 README에는 사이트 한 줄 소개와 안내 문서 링크만 둔다.
-- **상세 페이지의 처음 상태.** 다섯 프로젝트 모두 상세 페이지를 켠 채로 시작한다. 주성님이 채워 넣을 틀을 바로 볼 수 있고, 상세 페이지가 제대로 동작하는지도 확인된다. 내용이 준비되지 않은 프로젝트는 주성님이 끄면 `PAGE SOON`으로 바뀐다.
-
-## 확인 방법
-
-- 빌드가 오류 없이 끝난다.
-- 실제 브라우저로 열어 데스크톱과 휴대폰 크기, 어두운 테마와 밝은 테마 각각의 화면을 찍어 확인한다.
-- 메뉴 링크, 카드 링크, 상세 페이지에서 돌아오는 링크가 모두 동작한다.
-- 하위 경로 주소(`/JSCV`)와 최상위 주소 양쪽에서 링크와 그림이 깨지지 않는다.
-
-## 만드는 사람에게 맡기는 것
-
-- 구체적인 글꼴과 색 값 (위 디자인 원칙 안에서).
-- 파일과 폴더 구조, 구성 요소를 나누는 방식.
-- 자리 표시 문구의 정확한 표현.
-- 스크롤 움직임의 세부.
+- The exact typeface, sizes and colour values, within the look above.
+- File and folder layout.
+- Exact wording of placeholders.
